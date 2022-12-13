@@ -1,0 +1,25 @@
+{
+  "name": "kinoplus",
+  "version": "1.0.0",
+  "description": "Project to practice what I've learned",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iam-davidvm/kinoplus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iam-davidvm/kinoplus/issues"
+  },
+  "homepage": "https://github.com/iam-davidvm/kinoplus#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.0"
+  }
+}
