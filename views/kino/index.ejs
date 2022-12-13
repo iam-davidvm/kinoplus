@@ -1,3 +1,25 @@
 <% layout('layouts/boilerplate') %>
 
 <h1 class="title mt-6">Overview</h1>
+
+<div class="columns is-multiline">
+    <% for(let cinema of cinemas) { %>
+        <div class="column is-one-third">
+            <a href="#">
+                <div class="card">
+                    <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="<%= cinema.image %>" alt="<%= cinema.name %>">
+                    </figure>
+                    </div>
+                    <div class="card-content">      
+                    <div class="content">
+                        <h2 class="title is-4 mb-0"><%= cinema.name %></h2>
+                        <p class="has-text-weight-light"><%= cinema.location %></p>
+                        <p><%= cinema.description %></p>
+                    </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% } %>
