@@ -1,0 +1,5 @@
+@import '../../node_modules/bulma/bulma.sass';
+
+.bg-primary {
+  background-color: hsl(171, 100%, 41%);
+}
