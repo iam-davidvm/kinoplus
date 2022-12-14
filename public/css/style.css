@@ -1,5 +1,72 @@
 @import '../../node_modules/bulma/bulma.sass';
 
+:root {
+  --star-size: 1.5rem;
+  --star-color: hsl(0, 0%, 100%);
+  --star-background: hsl(48, 100%, 67%);
+}
+
 .bg-primary {
   background-color: hsl(171, 100%, 41%);
 }
+
+/* Star rating section */
+.stars-holder {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+
+.stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: Times;
+  line-height: 1;
+}
+
+.stars::before {
+  content: '★★★★★';
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--star-background) var(--percent),
+    var(--star-color) var(--percent)
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* End of star rating section */
+
+/* hover on cinema card effect */
+.open-image {
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.open-effect {
+  transition: transform 230ms ease-in;
+}
+
+.open-link:hover .open-effect {
+  transform: scale(1.05);
+}
+
+.open-card {
+  position: relative;
+  transition: background-color 460ms ease-in;
+}
+
+.open-link:hover .open-card::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: hsl(171, 100%, 41%);
+  opacity: 0.2;
+}
+/* end of hover on cinema card effect */
