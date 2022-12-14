@@ -10,7 +10,24 @@
   background-color: hsl(171, 100%, 41%);
 }
 
+.hero-image {
+  object-fit: cover;
+  border-radius: 1.5em;
+}
+
+.cover-image {
+  object-fit: cover;
+}
+
+.is-inline {
+  display: inline-block;
+}
+
 /* Star rating section */
+.column {
+  position: relative;
+}
+
 .stars-holder {
   position: absolute;
   bottom: 0.5rem;

@@ -7,4 +7,10 @@ router.get('/', async (req, res) => {
   res.render('kino/index', { cinemas });
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const cinema = await Cinema.findById(id);
+  res.render('kino/show', { cinema });
+});
+
 module.exports = router;

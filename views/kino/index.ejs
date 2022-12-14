@@ -1,11 +1,11 @@
 <% layout('layouts/boilerplate') %>
 
-<h1 class="title mt-6">Overview</h1>
+<h1 class="title mt-3 mb-6">Overview</h1>
 
 <div class="columns is-multiline">
     <% for(let cinema of cinemas) { %>
         <div class="column is-one-third">
-            <a href="#" class="open-link">
+            <a href="/kino/<%= cinema._id %>" class="open-link">
                 <div class="card open-card">
                     <div class="card-image">
                     <figure class="image is-4by3 open-image">

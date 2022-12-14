@@ -1,0 +1,156 @@
+<% layout('layouts/boilerplate') %>
+
+<figure class="image is-3by1 mt-3">
+    <img src="<%= cinema.image %>" alt="<%= cinema.name %>" class="hero-image">
+</figure>
+
+<div class="columns">
+    <div class="column">
+        <h1 class="title mt-6"><%= cinema.name %></h1>
+    </div>
+    <div class="column">
+        <div class="content stars-holder">
+            <div class="stars" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5.">
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="title is-4 mt-6">Now showing:</h2>
+
+<div class="columns is-multiline">
+    <div class="column is-one-quarter">
+        <a href="/kino/<%= cinema._id %>/edit" class="open-link">
+            <div class="card open-card">
+                <div class="card-image open-image">
+                <figure class="image is-4by5">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" class="cover-image open-effect">
+                </figure>
+                </div>
+                <div class="card-content">      
+                <div class="content">
+                    <h2 class="title is-6">Movie name</h2>
+                    <p>duration</p>
+                    <p>genre</p>
+                </div>
+                </div>
+            </div>
+        </a>    
+    </div>
+    <div class="column is-one-quarter">
+        <a href="/kino/<%= cinema._id %>/edit" class="open-link">
+            <div class="card open-card">
+                <div class="card-image open-image">
+                <figure class="image is-4by5">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" class="cover-image open-effect">
+                </figure>
+                </div>
+                <div class="card-content">      
+                <div class="content">
+                    <h2 class="title is-6">Movie name</h2>
+                    <p>duration</p>
+                    <p>genre</p>
+                </div>
+                </div>
+            </div>
+        </a>    
+    </div>
+    <div class="column is-one-quarter">
+        <a href="/kino/<%= cinema._id %>/edit" class="open-link">
+            <div class="card open-card">
+                <div class="card-image open-image">
+                <figure class="image is-4by5">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" class="cover-image open-effect">
+                </figure>
+                </div>
+                <div class="card-content">      
+                <div class="content">
+                    <h2 class="title is-6">Movie name</h2>
+                    <p>duration</p>
+                    <p>genre</p>
+                </div>
+                </div>
+            </div>
+        </a>    
+    </div>
+    <div class="column is-one-quarter">
+        <a href="/kino/<%= cinema._id %>/edit" class="open-link">
+            <div class="card open-card">
+                <div class="card-image open-image">
+                <figure class="image is-4by5">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" class="cover-image open-effect">
+                </figure>
+                </div>
+                <div class="card-content">      
+                <div class="content">
+                    <h2 class="title is-6">Movie name</h2>
+                    <p>duration</p>
+                    <p>genre</p>
+                </div>
+                </div>
+            </div>
+        </a>    
+    </div>
+    <div class="column is-one-quarter">
+        <a href="/kino/<%= cinema._id %>/edit" class="open-link">
+            <div class="card open-card">
+                <div class="card-image open-image">
+                <figure class="image is-4by5">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" class="cover-image open-effect">
+                </figure>
+                </div>
+                <div class="card-content">      
+                <div class="content">
+                    <h2 class="title is-6">Movie name</h2>
+                    <p>duration</p>
+                    <p>genre</p>
+                </div>
+                </div>
+            </div>
+        </a>    
+    </div>
+</div>
+<div class="columns">
+    <div class="column is-one-quarter">
+        <a class="button is-primary" href="#">Add movie</a>
+    </div>
+</div>
+
+<h2 class="title is-4 mt-6">Reviews:</h2>
+
+<div class="box">
+    <p class="is-inline"><strong>Username - </strong></p>
+    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
+    <p>Review text</p>
+    <p class="has-text-weight-light">Date</p>
+</div>
+<div class="box">
+    <p class="is-inline"><strong>Username - </strong></p>
+    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
+    <p>Review text</p>
+    <p class="has-text-weight-light">Date</p>
+</div>
+<div class="box">
+    <p class="is-inline"><strong>Username - </strong></p>
+    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
+    <p>Review text</p>
+    <p class="has-text-weight-light">Date</p>
+</div>
+
+<footer class="footer mt-6">
+    <div class="columns">
+        <div class="column">
+            <div class="content">
+                <h2 class="title is-4">Contact:</h2>
+                <p><%= cinema.location %></p>
+                <p><a href="tel:<%= cinema.phone %>"><%= cinema.phone %></a></p>
+                <p><a href="mailto:<%= cinema.email %>"><%= cinema.email %></a></p>
+            </div>
+        </div>
+        <div class="column">
+            <figure class="image is-5by4">
+                <img src="https://images.unsplash.com/photo-1522678073884-26b1b87526e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2735&q=80" class="cover-image">
+            </figure>
+        </div>
+    </div>
+  </footer>
