@@ -1,0 +1,13 @@
+<% if(success && success.length) { %>
+    <div class="notification is-success">
+        <button class="delete" id="hide-flash"></button>
+        <%= success %>
+      </div>
+    <% } %>
+    
+    <% if(error && error.length) { %>
+        <div class="notification is-danger">
+            <button class="delete" id="hide-flash"></button>
+            <%= error %>
+          </div>
+        <% } %>
