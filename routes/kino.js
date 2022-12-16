@@ -3,6 +3,7 @@ const router = express.Router();
 const Cinema = require('../models/cinema');
 const TempCinema = require('../models/tempCinema');
 const catchAsync = require('../utils/catchAsync');
+const { validateCinema } = require('../utils/middleware');
 
 router.get(
   '/',
@@ -18,6 +19,7 @@ router.get('/new', (req, res) => {
 
 router.post(
   '/new',
+  validateCinema,
   catchAsync(async (req, res) => {
     const cinema = new TempCinema(req.body.cinema);
     await cinema.save();
@@ -32,6 +34,26 @@ router.get(
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
     res.render('kino/show', { cinema });
+  })
+);
+
+router.get(
+  '/:id/edit',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const cinema = await Cinema.findById(id);
+    res.render('kino/edit', { cinema });
+  })
+);
+
+router.delete(
+  '/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const cinema = await Cinema.findById(id);
+    await Cinema.findByIdAndDelete(id);
+    req.flash('success', `Succesfully deleted ${cinema.name}.`);
+    res.redirect('/kino');
   })
 );
 

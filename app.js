@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 /* import routes */
 const kinoRoutes = require('./routes/kino');
@@ -20,6 +21,7 @@ app.use('/bulma', express.static(__dirname + '/node_modules/bulma/'));
 
 /* work with form data */
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 /* for flashing messages */
 // we need sessions

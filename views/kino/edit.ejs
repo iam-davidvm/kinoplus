@@ -1,0 +1,52 @@
+<% layout('layouts/boilerplate') %>
+
+<h1 class="title mt-3 mb-6">Edit <%= cinema.name %></h1>
+  <form id="form" action="/kino/<%= cinema._id %>?_method=PATCH" method="POST">
+    <div class="field">
+        <label class="label" for="name">Name movie theater</label>
+        <div class="control">
+          <input id="name" name="cinema[name]" class="input" type="text" placeholder="Name of the movie theater" value="<%= cinema.name ? cinema.name : '' %>" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="location">Location</label>
+        <div class="control">
+          <input id="location" name="cinema[location]" class="input" type="text" placeholder="Location of the cinema" value="<%= cinema.location ? cinema.location : '' %>" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="description">Description</label>
+        <div class="control">
+          <textarea id="description" name="cinema[description]" class="textarea counter-box" placeholder="Catchy description of the cinema" maxlength="192" required><%= cinema.description ? cinema.description : ''%></textarea>
+        </div>
+        <p class="help counter-message">Maximum 192 characters</p>
+      </div>
+      
+    <div class="field">
+        <label class="label" for="owner">Owner</label>
+        <div class="control">
+          <input id="owner" name="cinema[owner]" class="input" type="text" placeholder="Who owns this place" value="<%= cinema.owner ? cinema.owner : '' %>">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="email">Email</label>
+        <div class="control">
+          <input id="email" name="cinema[email]" class="input" type="email" placeholder="Email" value="<%= cinema.email ? cinema.email : '' %>"  required>
+        </div>
+        <p class="help">How can people get in touch with you?</p>
+
+    </div>
+
+    <div class="field">
+        <label class="label" for="phone">Phone</label>
+        <div class="control">
+          <input id="phone" name="cinema[phone]" class="input" type="text" placeholder="Phone number" value="<%= cinema.phone ? cinema.phone : ''%>"  required>
+        </div>
+        <p class="help">How can people get in touch with you?</p>
+
+    </div>
+    <div class="control mt-6">
+        <button class="button is-primary">Save</button>
+      </div>
+  </form>
