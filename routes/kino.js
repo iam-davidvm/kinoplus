@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Cinema = require('../models/cinema');
 const TempCinema = require('../models/tempCinema');
+const Movie = require('../models/movie');
 const catchAsync = require('../utils/catchAsync');
-const { validateCinema } = require('../utils/middleware');
+const { validateCinema, validateMovie } = require('../utils/middleware');
 
 router.get(
   '/',
@@ -33,7 +34,8 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
-    res.render('kino/show', { cinema });
+    const movies = await Movie.find({ cinema: id });
+    res.render('kino/show', { cinema, movies });
   })
 );
 
