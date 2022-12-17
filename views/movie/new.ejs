@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate') %>
+
+<h1 class="title mt-3 mb-6">Add a new movie</h1>
+
+<form id="form" action="/kino/<%= cinemaId %>/movie" method="POST">
+    <div class="field">
+        <label class="label" for="title">Movie title</label>
+        <div class="control">
+          <input id="title" name="movie[title]" class="input" type="text" placeholder="Movie title" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="genre">Movie genre</label>
+        <div class="control">
+          <input id="genre" name="movie[genre]" class="input" type="text" placeholder="Movie genre" required>
+        </div>
+    </div>
+      
+    <div class="field">
+        <label class="label" for="duration">Duration</label>
+        <div class="control">
+          <input id="duration" name="movie[duration]" class="input" type="number" min="5" step="1" placeholder="Duration of the movie in minutes" required>
+        </div>
+    </div>
+    
+    <div class="field">
+        <label class="label" for="image">Movie poster</label>
+        <div class="control">
+          <input id="image" name="movie[image]" class="input" type="text" placeholder="Link to movie poster">
+        </div>
+    </div>
+    <div class="control mt-6">
+        <button class="button is-primary">Submit</button>
+      </div>
+  </form>

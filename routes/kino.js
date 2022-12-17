@@ -70,4 +70,37 @@ router.delete(
   })
 );
 
+router.get('/:id/movie', (req, res) => {
+  const { id } = req.params;
+  res.render('movie/new', { cinemaId: id });
+});
+
+router.post(
+  '/:cinemaId/movie',
+  validateMovie,
+  catchAsync(async (req, res) => {
+    const { cinemaId } = req.params;
+    const cinema = await Cinema.findById(cinemaId);
+    const movie = new Movie({
+      ...req.body.movie,
+      cinema: cinema._id,
+    });
+    // console.log(cinema._id);
+    // movie.cinema = cinemaId;
+    await movie.save();
+    req.flash('success', 'The movie was succesfully added!');
+    res.redirect(`/kino/${cinemaId}/`);
+  })
+);
+
+router.get(
+  '/:cinemaId/movie/:movieId',
+  catchAsync(async (req, res) => {
+    const { cinemaId, movieId } = req.params;
+    await Movie.findByIdAndDelete(movieId);
+    req.flash('success', 'The movie is deleted');
+    res.redirect(`/kino/${cinemaId}`);
+  })
+);
+
 module.exports = router;
