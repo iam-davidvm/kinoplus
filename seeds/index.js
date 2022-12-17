@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Cinema = require('../models/cinema');
 const Movie = require('../models/movie');
+const Review = require('../models/review');
 const {
   names,
   locations,
@@ -11,6 +12,7 @@ const {
   images,
 } = require('./cinemaHelpers');
 const { movies } = require('./moviehelpers');
+const { reviews } = require('./reviewHelpers');
 
 mongoose
   .connect('mongodb://localhost:27017/kinoplus')
@@ -38,14 +40,28 @@ const seedDb = async () => {
       email: emails[i],
       phone: phones[i],
     });
+    /* randomMovies per Cinema, min 3 max 5 */
+    const randomNum = Math.floor(2 + Math.random() * 3);
+
+    const availableReviews = [...reviews];
+    for (let i = 0; i < randomNum; i++) {
+      const randomReview = Math.floor(Math.random() * availableReviews.length);
+      const review = new Review({
+        body: availableReviews[i].body,
+        rating: availableReviews[i].rating,
+        author: availableReviews[i].author,
+      });
+      await review.save();
+      availableReviews.splice(randomReview, 1);
+      cinema.reviews.push(review._id);
+    }
+
     await cinema.save();
 
     const cinemaId = cinema._id;
-    /* randomMovies per Cinema, min 3 max 5 */
-    const randomMovies = Math.floor(2 + Math.random() * 3);
     // Deep copy the array
     const availableMovies = [...movies];
-    for (let i = 0; i < randomMovies; i++) {
+    for (let i = 0; i < randomNum; i++) {
       const randomMovie = Math.floor(Math.random() * availableMovies.length);
       const movie = new Movie({
         title: availableMovies[randomMovie].title,

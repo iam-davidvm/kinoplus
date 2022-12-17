@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require('../models/review');
 const { Schema } = mongoose;
 
 const cinemaSchema = new Schema({
@@ -24,6 +25,12 @@ const cinemaSchema = new Schema({
     type: String,
     required: true,
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 const Cinema = mongoose.model('Cinema', cinemaSchema);
