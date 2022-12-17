@@ -9,5 +9,5 @@ module.exports.cinemaSchema = Joi.object({
     owner: Joi.string(),
     email: Joi.string().email().required(),
     phone: Joi.string().required(),
-  }).required,
+  }).required(),
 });

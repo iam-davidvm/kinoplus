@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 
 /* import routes */
 const kinoRoutes = require('./routes/kino');
+const adminRoutes = require('./routes/admin');
 
 /* view settings */
 app.engine('ejs', engine);
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 
 /* use routes */
 app.use('/kino', kinoRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.redirect('/kino');

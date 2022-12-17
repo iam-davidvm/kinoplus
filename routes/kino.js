@@ -46,6 +46,17 @@ router.get(
   })
 );
 
+router.patch(
+  '/:id',
+  validateCinema,
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    console.log(req.body.cinema);
+    await Cinema.findByIdAndUpdate(id, { ...req.body.cinema });
+    res.redirect(`/kino/${id}`);
+  })
+);
+
 router.delete(
   '/:id',
   catchAsync(async (req, res) => {

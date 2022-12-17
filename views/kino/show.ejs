@@ -19,7 +19,7 @@
   </div>
 
 <figure class="image is-3by1 mt-3">
-    <img src="<%= cinema.image %>" alt="<%= cinema.name %>" class="hero-image">
+    <img src="<%= cinema.image ? cinema.image : 'https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2062&q=80' %>" alt="<%= cinema.name %>" class="hero-image">
 </figure>
 
 <div class="columns">

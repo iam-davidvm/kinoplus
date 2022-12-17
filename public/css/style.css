@@ -87,3 +87,14 @@
   opacity: 0.2;
 }
 /* end of hover on cinema card effect */
+
+/* disable fields in forms */
+
+.disable {
+  pointer-events: none;
+  background-color: hsl(0, 0%, 96%);
+  border-color: hsl(0, 0%, 96%);
+  box-shadow: none;
+  color: hsl(0, 0%, 48%);
+}
+/* end of disable fields in forms */
