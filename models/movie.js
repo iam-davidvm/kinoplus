@@ -12,7 +12,7 @@ const movieSchema = new Schema({
     required: true,
   },
   duration: {
-    string: Number,
+    type: Number,
     required: true,
   },
   cinema: {
