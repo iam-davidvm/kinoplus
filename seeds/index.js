@@ -45,11 +45,14 @@ const seedDb = async () => {
 
     const availableReviews = [...reviews];
     for (let i = 0; i < randomNum; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - Math.floor(Math.random() * 14));
       const randomReview = Math.floor(Math.random() * availableReviews.length);
       const review = new Review({
         body: availableReviews[i].body,
         rating: availableReviews[i].rating,
         author: availableReviews[i].author,
+        date,
       });
       await review.save();
       availableReviews.splice(randomReview, 1);

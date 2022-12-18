@@ -3,8 +3,10 @@ const router = express.Router();
 const Cinema = require('../models/cinema');
 const TempCinema = require('../models/tempCinema');
 const Movie = require('../models/movie');
+const Review = require('../models/review');
 const catchAsync = require('../utils/catchAsync');
 const { validateCinema, validateMovie } = require('../utils/middleware');
+const { date } = require('joi');
 
 router.get(
   '/',
@@ -99,6 +101,28 @@ router.get(
     const { cinemaId, movieId } = req.params;
     await Movie.findByIdAndDelete(movieId);
     req.flash('success', 'The movie is deleted');
+    res.redirect(`/kino/${cinemaId}`);
+  })
+);
+
+router.get('/:id/review', (req, res) => {
+  const { id } = req.params;
+  res.render('review/new', { cinemaId: id });
+});
+
+router.post(
+  '/:cinemaId/review',
+  catchAsync(async (req, res) => {
+    const { cinemaId } = req.params;
+    const cinema = await Cinema.findById(cinemaId);
+    const review = new Review({
+      ...req.body.review,
+      date: Date.now(),
+    });
+    await review.save();
+    cinema.reviews.push(review._id);
+    await cinema.save();
+    req.flash('success', 'Your review has been added.');
     res.redirect(`/kino/${cinemaId}`);
   })
 );

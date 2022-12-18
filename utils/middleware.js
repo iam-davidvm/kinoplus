@@ -1,5 +1,5 @@
 const ExpressError = require('./ExpressError');
-const { cinemaSchema, movieSchema } = require('../schemas');
+const { cinemaSchema, movieSchema, reviewSchema } = require('../schemas');
 
 module.exports.validateCinema = (req, res, next) => {
   const { error } = cinemaSchema.validate(req.body);
@@ -13,6 +13,16 @@ module.exports.validateCinema = (req, res, next) => {
 
 module.exports.validateMovie = (req, res, next) => {
   const { error } = movieSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(',');
     throw new ExpressError(msg, 400);

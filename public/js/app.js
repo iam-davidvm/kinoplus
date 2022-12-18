@@ -34,6 +34,30 @@ if (form) {
     });
   }
 }
+
+/* show rating of the slider */
+
+function findOutputForSlider(el) {
+  const idVal = el.id;
+  outputs = document.getElementsByTagName('output');
+  for (const i = 0; i < outputs.length; i++) {
+    if (outputs[i].htmlFor == idVal) return outputs[i];
+  }
+}
+
+const sliders = document.querySelectorAll('input[type="range"].slider');
+[].forEach.call(sliders, function (slider) {
+  const output = findOutputForSlider(slider);
+  if (output) {
+    slider.addEventListener('input', function (event) {
+      output.value = event.target.value;
+    });
+  }
+});
+
+/* end of show rating of the slider */
+
+/* end of forms */
 /* Showing modal */
 const deleteModal = document.getElementById('delete-modal');
 const deleteModalOpen = document.getElementById('delete-modal-open');
@@ -48,3 +72,4 @@ for (let modalClose of modalCloseBtns) {
     deleteModal.classList.remove('is-active');
   });
 }
+/* end of showing modals */

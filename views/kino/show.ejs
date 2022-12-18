@@ -77,12 +77,24 @@
 
 <h2 class="title is-4 mt-6">Reviews:</h2>
 
-<% for (let review of cinema.reviews) { %>
+<div class="columns">
+    <div class="column is-one-quarter">
+        <a class="button is-primary" href="/kino/<%= cinema._id %>/review/">Add review</a>
+    </div>
+</div>
+
+<% const sortedReviews = cinema.reviews.sort((a, b) => new Date(b.date) - new Date(a.date)); %>
+
+<% for (let review of sortedReviews) { %>
     <div class="box">
         <p class="is-inline"><strong><%= review.author %> - </strong></p>
         <div class="stars is-inline" style="--rating: <%= review.rating %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= review.rating %> out of 5."></div>
         <p><%= review.body %></p>
-        <p class="has-text-weight-light"><%= review.date ? review.date : '01/01/2022' %></p>
+        <% let date;
+        if(review.date) {
+            date = new Intl.DateTimeFormat(['ban', 'id']).format(review.date);
+        } %>
+        <p class="has-text-weight-light"><%= date ? date : '01/01/2022' %></p>
     </div>
 <% } %>
 

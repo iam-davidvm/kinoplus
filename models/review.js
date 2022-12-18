@@ -14,6 +14,11 @@ const reviewSchema = new Schema({
     type: String,
     required: true,
   },
+  date: {
+    type: Date,
+    min: '2022-12-17',
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

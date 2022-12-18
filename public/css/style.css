@@ -114,3 +114,39 @@
   color: hsl(0, 0%, 48%);
 }
 /* end of disable fields in forms */
+
+/* layout of the slider */
+
+input[type='range'].slider {
+  max-width: 300px;
+  width: 100%;
+}
+
+input[type='range'].slider::-moz-range-thumb {
+  border-radius: 50%;
+  background-color: hsl(171, 100%, 41%);
+  height: 1.5rem;
+  width: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+input[type='range'].slider::-moz-range-thumb:hover {
+  background-color: hsla(171, 100%, 41%, 0.9);
+}
+
+input[type='range'].slider::-moz-range-track {
+  background-color: white;
+  border: 2px solid hsl(171, 100%, 41%);
+  border-radius: 8px;
+  height: 0.5rem;
+}
+
+.slider-output {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+}
+
+/* end of layout of the slider */
