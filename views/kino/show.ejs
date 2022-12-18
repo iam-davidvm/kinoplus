@@ -28,7 +28,9 @@
     </div>
     <div class="column">
         <div class="content stars-holder">
-            <div class="stars" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5.">
+            <% const ratings = cinema.reviews.map(review => review.rating); %>
+            <% const rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; %>
+            <div class="stars" style="--rating: <%= rating %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= rating %> out of 5.">
             </div>
         </div>
     </div>
@@ -75,24 +77,14 @@
 
 <h2 class="title is-4 mt-6">Reviews:</h2>
 
-<div class="box">
-    <p class="is-inline"><strong>Username - </strong></p>
-    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
-    <p>Review text</p>
-    <p class="has-text-weight-light">Date</p>
-</div>
-<div class="box">
-    <p class="is-inline"><strong>Username - </strong></p>
-    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
-    <p>Review text</p>
-    <p class="has-text-weight-light">Date</p>
-</div>
-<div class="box">
-    <p class="is-inline"><strong>Username - </strong></p>
-    <div class="stars is-inline" style="--rating: 2.3;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is 2.3 out of 5."></div>
-    <p>Review text</p>
-    <p class="has-text-weight-light">Date</p>
-</div>
+<% for (let review of cinema.reviews) { %>
+    <div class="box">
+        <p class="is-inline"><strong><%= review.author %> - </strong></p>
+        <div class="stars is-inline" style="--rating: <%= review.rating %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= review.rating %> out of 5."></div>
+        <p><%= review.body %></p>
+        <p class="has-text-weight-light"><%= review.date ? review.date : '01/01/2022' %></p>
+    </div>
+<% } %>
 
 <footer class="footer mt-6">
     <div class="columns">

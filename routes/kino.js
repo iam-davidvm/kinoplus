@@ -9,7 +9,7 @@ const { validateCinema, validateMovie } = require('../utils/middleware');
 router.get(
   '/',
   catchAsync(async (req, res) => {
-    const cinemas = await Cinema.find({});
+    const cinemas = await Cinema.find({}).populate('reviews');
     res.render('kino/index', { cinemas });
   })
 );
@@ -33,7 +33,7 @@ router.get(
   '/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const cinema = await Cinema.findById(id);
+    const cinema = await Cinema.findById(id).populate('reviews');
     const movies = await Movie.find({ cinema: id });
     res.render('kino/show', { cinema, movies });
   })
