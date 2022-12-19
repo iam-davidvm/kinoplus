@@ -5,8 +5,13 @@ const TempCinema = require('../models/tempCinema');
 const Movie = require('../models/movie');
 const Review = require('../models/review');
 const catchAsync = require('../utils/catchAsync');
-const { validateCinema, validateMovie } = require('../utils/middleware');
+const {
+  validateCinema,
+  validateMovie,
+  validateReview,
+} = require('../utils/middleware');
 const { date } = require('joi');
+const review = require('../models/review');
 
 router.get(
   '/',
@@ -67,6 +72,7 @@ router.delete(
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
     await Cinema.findByIdAndDelete(id);
+    await Movie.deleteMany({ cinema: cinema._id });
     req.flash('success', `Succesfully deleted ${cinema.name}.`);
     res.redirect('/kino');
   })
@@ -123,6 +129,37 @@ router.post(
     cinema.reviews.push(review._id);
     await cinema.save();
     req.flash('success', 'Your review has been added.');
+    res.redirect(`/kino/${cinemaId}`);
+  })
+);
+
+router.get(
+  '/:cinemaId/review/:reviewId',
+  catchAsync(async (req, res) => {
+    const { cinemaId, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    res.render('review/edit', { review, cinemaId });
+  })
+);
+
+router.patch(
+  '/:cinemaId/review/:reviewId',
+  validateReview,
+  catchAsync(async (req, res) => {
+    const { cinemaId, reviewId } = req.params;
+    await Review.findByIdAndUpdate(reviewId, { ...req.body.review });
+    req.flash('success', 'Your review is saved.');
+    res.redirect(`/kino/${cinemaId}`);
+  })
+);
+
+router.delete(
+  '/:cinemaId/review/:reviewId',
+  catchAsync(async (req, res) => {
+    const { cinemaId, reviewId } = req.params;
+    await Cinema.findByIdAndUpdate(cinemaId, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    req.flash('Success', 'Successfully deleted this review');
     res.redirect(`/kino/${cinemaId}`);
   })
 );

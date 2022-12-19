@@ -33,6 +33,12 @@ const cinemaSchema = new Schema({
   ],
 });
 
+cinemaSchema.post('findOneAndDelete', async function (cinema) {
+  if (cinema.reviews.length) {
+    await Review.deleteMany({ _id: { $in: cinema.reviews } });
+  }
+});
+
 const Cinema = mongoose.model('Cinema', cinemaSchema);
 
 module.exports = Cinema;

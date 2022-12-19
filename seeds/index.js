@@ -29,6 +29,7 @@ mongoose.set('strictQuery', false);
 const seedDb = async () => {
   await Cinema.deleteMany({});
   await Movie.deleteMany({});
+  await Review.deleteMany({});
 
   for (let i = 0; i < 10; i++) {
     const cinema = new Cinema({

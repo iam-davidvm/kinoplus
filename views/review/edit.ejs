@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %>
+
+<h1 class="title mt-3 mb-6">Add Your review</h1>
+
+<form id="form" action="/kino/<%= cinemaId %>/review/<%= review._id %>?_method=PATCH" method="POST">
+  <div class="field">
+    <label class="label" for="body">Review</label>
+    <div class="control">
+      <textarea id="body" name="review[body]" class="textarea counter-box" required><%= review.body %></textarea>
+    </div>
+  </div>
+  
+    <div class="field">
+        <label class="label" for="rating">Rating</label>
+        <output class="slider-output mb-1" for="rating"><%= review.rating %></output>
+        <input id="rating" name="review[rating]" class="slider" min="1" max="5" value="<%= review.rating %>" step="1" type="range">
+    </div>
+    <div class="control mt-6">
+        <button class="button is-primary">Save</button>
+      </div>
+  </form>
+
+  <form class="mt-3" action="/kino/<%= cinemaId %>/review/<%= review._id %>?_method=DELETE" method="post">
+    <button class="button is-danger">Delete</button>
+  </form>

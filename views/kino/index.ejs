@@ -12,9 +12,13 @@
                     <figure class="image is-4by3 open-image">
                         <img src="<%= cinema.image ? cinema.image : 'https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2062&q=80' %>" alt="<%= cinema.name %>" class="open-effect">
                         <div class="content stars-holder">
-                            <% const ratings = cinema.reviews.map(review => review.rating); %>
-                            <% const rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; %>
-                            <div class="stars" style="--rating: <%= rating %>;" aria-label="Rating of this movie theater is <%= rating %> out of 5.">
+                            <% 
+                            let rating = '2.5';
+                            if(cinema.reviews && cinema.reviews.length > 1) {
+                                const ratings = cinema.reviews.map(review => review.rating);
+                                rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; 
+                            } %>
+                            <div class="stars" style="--rating: <%= rating ? rating : '0' %>;" aria-label="Rating of this movie theater is <%= rating %> out of 5.">
                             </div>
                         </div>
                     </figure>

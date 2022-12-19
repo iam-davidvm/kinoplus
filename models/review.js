@@ -12,11 +12,11 @@ const reviewSchema = new Schema({
   },
   author: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: Date,
-    min: '2022-12-17',
+    // min: '2022-12-17', // disable this when you seed
     required: true,
   },
 });
