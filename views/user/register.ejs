@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate') %>
+
+<h1 class="title mt-3 mb-6">Create an account</h1>
+
+  <form id="form" action="/register" method="POST">
+    <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="control">
+          <input id="username" name="username" class="input" type="text" placeholder="Username" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="email">Email</label>
+        <div class="control">
+          <input id="email" name="email" class="input" type="email" placeholder="Email" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+          <input id="password" name="password" class="input" type="password" placeholder="Password" required>
+          <!-- Could add password strength control -->
+        </div>
+    </div>
+    <div class="field">
+      <legend class="label">I work for a cinema</legend>
+      <label class="radio">
+        <input type="radio" name="isCinemaAuthor" value="true">
+        Yes
+      </label>
+      <label class="radio">
+        <input type="radio" name="isCinemaAuthor" value="false" checked>
+        No
+      </label>
+    </div>
+    <div class="control mt-6">
+        <button class="button is-primary">Submit</button>
+      </div>
+  </form>

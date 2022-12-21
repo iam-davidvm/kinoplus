@@ -9,6 +9,7 @@ module.exports.cinemaSchema = Joi.object({
     owner: Joi.string(),
     email: Joi.string().email().required(),
     phone: Joi.string().required(),
+    admin: Joi.string(),
   }).required(),
 });
 
@@ -25,6 +26,6 @@ module.exports.reviewSchema = Joi.object({
   review: Joi.object({
     body: Joi.string().required(),
     rating: Joi.number().min(1).max(5).required(),
-    author: Joi.string(),
+    author: Joi.string().required(),
   }).required(),
 });

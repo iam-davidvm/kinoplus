@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Review = require('../models/review');
+const Review = require('./review');
 const { Schema } = mongoose;
 
 const cinemaSchema = new Schema({
@@ -31,6 +31,11 @@ const cinemaSchema = new Schema({
       ref: 'Review',
     },
   ],
+  admin: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 cinemaSchema.post('findOneAndDelete', async function (cinema) {

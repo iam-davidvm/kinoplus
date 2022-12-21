@@ -4,14 +4,15 @@ const Cinema = require('../models/cinema');
 const TempCinema = require('../models/tempCinema');
 const Movie = require('../models/movie');
 const Review = require('../models/review');
+const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
+const { isLoggedIn } = require('../utils/middleware');
 const {
   validateCinema,
   validateMovie,
   validateReview,
 } = require('../utils/middleware');
 const { date } = require('joi');
-const review = require('../models/review');
 
 router.get(
   '/',
@@ -21,15 +22,16 @@ router.get(
   })
 );
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
   res.render('kino/new');
 });
 
 router.post(
   '/new',
+  isLoggedIn,
   validateCinema,
   catchAsync(async (req, res) => {
-    const cinema = new TempCinema(req.body.cinema);
+    const cinema = new TempCinema({ ...req.body.cinema, admin: req.user._id });
     await cinema.save();
     req.flash('success', 'Succesfully requested to add a cinema!');
     res.redirect(`/kino`);
@@ -40,7 +42,10 @@ router.get(
   '/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const cinema = await Cinema.findById(id).populate('reviews');
+    const cinema = await Cinema.findById(id).populate({
+      path: 'reviews',
+      populate: { path: 'author' },
+    });
     const movies = await Movie.find({ cinema: id });
     res.render('kino/show', { cinema, movies });
   })
@@ -48,6 +53,7 @@ router.get(
 
 router.get(
   '/:id/edit',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
@@ -57,6 +63,7 @@ router.get(
 
 router.patch(
   '/:id',
+  isLoggedIn,
   validateCinema,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -68,6 +75,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
@@ -85,6 +93,7 @@ router.get('/:id/movie', (req, res) => {
 
 router.post(
   '/:cinemaId/movie',
+  isLoggedIn,
   validateMovie,
   catchAsync(async (req, res) => {
     const { cinemaId } = req.params;
@@ -103,6 +112,7 @@ router.post(
 
 router.get(
   '/:cinemaId/movie/:movieId',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { cinemaId, movieId } = req.params;
     await Movie.findByIdAndDelete(movieId);
@@ -118,12 +128,14 @@ router.get('/:id/review', (req, res) => {
 
 router.post(
   '/:cinemaId/review',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { cinemaId } = req.params;
     const cinema = await Cinema.findById(cinemaId);
     const review = new Review({
       ...req.body.review,
       date: Date.now(),
+      author: req.user._id,
     });
     await review.save();
     cinema.reviews.push(review._id);
@@ -135,6 +147,7 @@ router.post(
 
 router.get(
   '/:cinemaId/review/:reviewId',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { cinemaId, reviewId } = req.params;
     const review = await Review.findById(reviewId);
@@ -144,6 +157,7 @@ router.get(
 
 router.patch(
   '/:cinemaId/review/:reviewId',
+  isLoggedIn,
   validateReview,
   catchAsync(async (req, res) => {
     const { cinemaId, reviewId } = req.params;
@@ -155,6 +169,7 @@ router.patch(
 
 router.delete(
   '/:cinemaId/review/:reviewId',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { cinemaId, reviewId } = req.params;
     await Cinema.findByIdAndUpdate(cinemaId, { $pull: { reviews: reviewId } });

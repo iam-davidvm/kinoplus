@@ -30,3 +30,14 @@ module.exports.validateReview = (req, res, next) => {
     next();
   }
 };
+
+/* at this moment, you only return to the page if you have to be logged in */
+/* maybe better to have two routes savePageURL an this on, with different goals */
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.returnTo = req.originalUrl;
+    req.flash('error', 'You must be signed in!');
+    return res.redirect('/login');
+  }
+  next();
+};

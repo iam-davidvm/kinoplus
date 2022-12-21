@@ -24,6 +24,11 @@ const tempCinemaSchema = new Schema({
     type: String,
     required: true,
   },
+  admin: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 const TempCinema = mongoose.model('TempCinema', tempCinemaSchema);

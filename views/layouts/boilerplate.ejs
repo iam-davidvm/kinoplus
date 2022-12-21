@@ -25,15 +25,32 @@
                   </a>
                 </div>
                 <div class="navbar-start">
-                  <a href="/kino/new" class="navbar-item">
-                    Add cinema
-                  </a>
+                  <% if(currentUser && (currentUser.roles.includes('cinemaAuthor') || currentUser.roles.includes('admin'))) { %>
+                    <a href="/kino/new" class="navbar-item">
+                      Add cinema
+                    </a>
+                  <% } %>
                 </div>
 
                 <div class="navbar-end">
-                  <a class="navbar-item" href="/admin/requests">
-                    Admin
+                  <% if(currentUser && currentUser.roles.includes('admin')) { %>
+                    <a class="navbar-item" href="/admin/requests">
+                      Admin
+                    </a>                  
+                  <% } %>
+                  <% if(!currentUser) { %>
+                    <a class="navbar-item" href="/register">
+                      Register
+                    </a>
+
+                    <a class="navbar-item" href="/login">
+                      Login
+                    </a>
+                  <% } else {%>
+                  <a class="navbar-item" href="/logout">
+                    Logout
                   </a>
+                  <% } %>
                 </div>
               
               </nav>

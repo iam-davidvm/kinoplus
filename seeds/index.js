@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Cinema = require('../models/cinema');
 const Movie = require('../models/movie');
 const Review = require('../models/review');
+const User = require('../models/user');
 const {
   names,
   locations,
@@ -13,6 +14,7 @@ const {
 } = require('./cinemaHelpers');
 const { movies } = require('./moviehelpers');
 const { reviews } = require('./reviewHelpers');
+const { users } = require('./userHelpers');
 
 mongoose
   .connect('mongodb://localhost:27017/kinoplus')
@@ -40,6 +42,7 @@ const seedDb = async () => {
       owner: owners[i],
       email: emails[i],
       phone: phones[i],
+      admin: '63a233ea84d3c9ac50bd21b6', // cinema
     });
     /* randomMovies per Cinema, min 3 max 5 */
     const randomNum = Math.floor(2 + Math.random() * 3);
@@ -52,7 +55,7 @@ const seedDb = async () => {
       const review = new Review({
         body: availableReviews[i].body,
         rating: availableReviews[i].rating,
-        author: availableReviews[i].author,
+        author: '63a233eb84d3c9ac50bd21bc', // dummy
         date,
       });
       await review.save();
@@ -78,6 +81,17 @@ const seedDb = async () => {
       await movie.save();
     }
   }
+  // enable if new users are wanted
+  /*
+  for (let user of users) {
+    const newUser = new User({
+      username: user.username,
+      email: user.email,
+      roles: user.roles,
+    });
+    await User.register(newUser, user.password);
+  }
+  */
 };
 
 seedDb().then(() => {

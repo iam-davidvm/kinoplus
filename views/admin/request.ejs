@@ -32,11 +32,24 @@
     <% } %>
         
     <div class="field">
+        <label class="label" for="admin">Admin Id</label>
+        <div class="control">
+            <input id="admin" name="cinema[admin]" class="input disable" type="text" placeholder="Admin" value="<%= cinema.admin ? cinema.admin._id : '' %>" >
+        </div>        
+    </div>
+
+    <div class="field">
+        <label class="label" for="admin">Admin username</label>
+        <div class="control">
+            <input id="admin" class="input disable" type="text" placeholder="Admin" value="<%= cinema.admin ? cinema.admin.username : '' %>" >
+        </div>        
+    </div>
+
+    <div class="field">
         <label class="label" for="email">Email</label>
         <div class="control">
             <input id="email" name="cinema[email]" class="input disable" type="email" placeholder="Email" value="<%= cinema.email ? cinema.email : '' %>" >
-        </div>
-        
+        </div>        
     </div>
     
     <div class="field">
@@ -57,7 +70,7 @@
     <% } %>
 
     <div class="control mt-6">
-        <button class="button is-primary">Approve</button>
+        <button class="button is-primary">APPROVE</button>
       </div>
 </form>
 <form action="/admin/requests/<%= cinema._id %>?_method=DELETE" method="POST" class="mt-2">

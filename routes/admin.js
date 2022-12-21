@@ -3,27 +3,30 @@ const router = express.Router();
 const TempCinema = require('../models/tempCinema');
 const Cinema = require('../models/cinema');
 const catchAsync = require('../utils/catchAsync');
-const { validateCinema } = require('../utils/middleware');
+const { validateCinema, isLoggedIn } = require('../utils/middleware');
 
 router.get(
   '/requests',
+  isLoggedIn,
   catchAsync(async (req, res) => {
-    const cinemas = await TempCinema.find();
+    const cinemas = await TempCinema.find().populate('admin');
     res.render('admin/requests', { cinemas });
   })
 );
 
 router.get(
   '/requests/:id',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const cinema = await TempCinema.findById(id);
+    const cinema = await TempCinema.findById(id).populate('admin');
     res.render('admin/request', { cinema });
   })
 );
 
 router.post(
   '/requests/:id',
+  isLoggedIn,
   validateCinema,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -38,6 +41,7 @@ router.post(
 
 router.delete(
   '/requests/:id',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await TempCinema.findByIdAndDelete(id);
