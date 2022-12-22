@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+
+<h1 class="title mt-3 mb-6">Edit <%= user.username %></h1>
+
+<form action="/admin/users/<%= user._id %>?_method=PATCH" method="POST">
+    <label class="label">Active roles:</label>
+    <div class="field">
+        <label class="checkbox">
+            <input type="checkbox" class="mr-1" name="roles" value="cinemaAuthor" <%= user.roles.includes('cinemaAuthor') ? "checked" : "" %>>
+            cinemaAuthor
+        </label>
+    </div>
+    <div class="field">
+        <label class="checkbox">
+            <input type="checkbox" class="mr-1" name="roles" value="admin" <%= user.roles.includes('admin') ? "checked" : "" %>>
+            admin
+        </label>
+    </div>
+    
+
+    <button class="button is-success mt-3">Edit</button>
+</form>

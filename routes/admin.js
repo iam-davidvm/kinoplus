@@ -21,6 +21,44 @@ router.get(
 );
 
 router.get(
+  '/users/:id',
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.render('admin/user', { user });
+  })
+);
+
+router.patch(
+  '/users/:id',
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { roles } = req.body;
+    const user = await User.findById(id);
+    user.roles = [];
+    switch (typeof roles) {
+      case 'undefined':
+        break;
+      case 'string':
+        user.roles.push(roles);
+        break;
+      case 'object':
+        user.roles.push(...roles);
+        break;
+      default:
+        req.flash('error', 'Something went wrong');
+        return res.redirect('/kino');
+    }
+    await user.save();
+    res.redirect('/admin/users');
+  })
+);
+
+router.get(
   '/users/:id/delete',
   isLoggedIn,
   isAdmin,
