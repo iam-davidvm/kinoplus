@@ -1,4 +1,7 @@
 const ExpressError = require('./ExpressError');
+const Cinema = require('../models/cinema');
+const User = require('../models/user');
+const Review = require('../models/review');
 const { cinemaSchema, movieSchema, reviewSchema } = require('../schemas');
 
 module.exports.validateCinema = (req, res, next) => {
@@ -40,4 +43,38 @@ module.exports.isLoggedIn = (req, res, next) => {
     return res.redirect('/login');
   }
   next();
+};
+
+module.exports.isAdmin = async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  if (!user.roles.includes('admin')) {
+    req.flash('error', 'You are not an admin');
+    res.redirect('/kino');
+  } else {
+    next();
+  }
+};
+
+module.exports.isCinemaAdmin = async (req, res, next) => {
+  const { id } = req.params;
+  const cinema = await Cinema.findById(id);
+  const user = await User.findById(req.user._id);
+  if (!cinema.admin.equals(req.user._id) && !user.roles.includes('admin')) {
+    req.flash('error', 'You do not have permission');
+    return res.redirect(`/kino/${id}`);
+  } else {
+    next();
+  }
+};
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  const user = await User.findById(req.user._id);
+  if (!review.author.equals(req.user._id) && !user.roles.includes('admin')) {
+    req.flash('error', 'You do not have permission');
+    res.redirect(`/kino/${id}`);
+  } else {
+    next();
+  }
 };

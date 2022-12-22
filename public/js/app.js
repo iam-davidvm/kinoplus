@@ -7,6 +7,14 @@ if (hideFlash) {
   });
 }
 
+const hideFlashWarning = document.getElementById('hide-flash-warning');
+
+if (hideFlashWarning) {
+  hideFlashWarning.addEventListener('click', (event) => {
+    event.target.parentElement.parentElement.style.display = 'none';
+  });
+}
+
 /* forms */
 // show the current length of the message box and show errors
 const form = document.getElementById('form');
@@ -61,11 +69,18 @@ const sliders = document.querySelectorAll('input[type="range"].slider');
 /* Showing modal */
 const deleteModal = document.getElementById('delete-modal');
 const deleteModalOpen = document.getElementById('delete-modal-open');
+const multiModalOpen = document.querySelectorAll('.multi-modal-open');
 const modalCloseBtns = document.querySelectorAll('.modal-close-btn');
 
 deleteModalOpen.addEventListener('click', () => {
   deleteModal.classList.add('is-active');
 });
+
+for (let modalOpen of multiModalOpen) {
+  modalOpen.addEventListener('click', () => {
+    deleteModal.classList.add('is-active');
+  });
+}
 
 for (let modalClose of modalCloseBtns) {
   modalClose.addEventListener('click', () => {

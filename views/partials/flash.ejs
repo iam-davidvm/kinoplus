@@ -2,12 +2,26 @@
     <div class="notification is-success">
         <button class="delete" id="hide-flash"></button>
         <%= success %>
-      </div>
-    <% } %>
-    
-    <% if(error && error.length) { %>
-        <div class="notification is-danger">
-            <button class="delete" id="hide-flash"></button>
-            <%= error %>
-          </div>
-        <% } %>
+    </div>
+<% } %>
+
+<% if(error && error.length) { %>
+    <div class="notification is-danger">
+        <button class="delete" id="hide-flash"></button>
+        <%= error %>
+    </div>
+  <% } %>
+
+  <% if(warning && warning.length) { %>
+    <div class="notification is-danger">
+        <!-- <button class="delete" id="hide-flash"></button> -->
+        <p><%= warning[0].message %></p>
+        <p class="is-size-4"><%= warning[0].username %></p>
+        <div class="buttons mt-3">
+          <form action="/admin/users/<%= warning[0].id %>?_method=DELETE" method="POST">
+            <button class="button">Yes</button>
+          </form>
+          <button class="button ml-3 has-background-dark has-text-white-ter" id="hide-flash-warning">No</button>
+        </div>
+    </div>
+  <% } %>
