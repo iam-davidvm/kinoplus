@@ -27,7 +27,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
-    req.flash('warning', {
+    req.flash('userWarning', {
       message: 'Are you sure you want to delete:',
       username: user.username,
       id,
@@ -83,6 +83,22 @@ router.post(
     const newId = newCinema._id;
     req.flash('success', 'This cinema has succesfully been approved');
     res.redirect(`/kino/${newId}`);
+  })
+);
+
+router.get(
+  '/requests/:id/delete',
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const cinema = await TempCinema.findById(id);
+    req.flash('cinemaWarning', {
+      message: 'Are you sure you want to delete:',
+      cinemaname: cinema.name,
+      id,
+    });
+    res.redirect('/admin/requests');
   })
 );
 

@@ -12,13 +12,27 @@
     </div>
   <% } %>
 
-  <% if(warning && warning.length) { %>
+  <% if(cinemaWarning && cinemaWarning.length) { %>
     <div class="notification is-danger">
         <!-- <button class="delete" id="hide-flash"></button> -->
-        <p><%= warning[0].message %></p>
-        <p class="is-size-4"><%= warning[0].username %></p>
+        <p><%= cinemaWarning[0].message %></p>
+        <p class="is-size-4"><%= cinemaWarning[0].cinemaname %></p>
         <div class="buttons mt-3">
-          <form action="/admin/users/<%= warning[0].id %>?_method=DELETE" method="POST">
+          <form action="/admin/requests/<%= cinemaWarning[0].id %>?_method=DELETE" method="POST">
+            <button class="button">Yes</button>
+          </form>
+          <button class="button ml-3 has-background-dark has-text-white-ter" id="hide-flash-warning">No</button>
+        </div>
+    </div>
+  <% } %>
+
+  <% if(userWarning && userWarning.length) { %>
+    <div class="notification is-danger">
+        <!-- <button class="delete" id="hide-flash"></button> -->
+        <p><%= userWarning[0].message %></p>
+        <p class="is-size-4"><%= userWarning[0].username %></p>
+        <div class="buttons mt-3">
+          <form action="/admin/users/<%= userWarning[0].id %>?_method=DELETE" method="POST">
             <button class="button">Yes</button>
           </form>
           <button class="button ml-3 has-background-dark has-text-white-ter" id="hide-flash-warning">No</button>

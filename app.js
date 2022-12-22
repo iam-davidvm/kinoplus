@@ -70,7 +70,8 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-  res.locals.warning = req.flash('warning');
+  res.locals.cinemaWarning = req.flash('cinemaWarning');
+  res.locals.userWarning = req.flash('userWarning');
   next();
 });
 
