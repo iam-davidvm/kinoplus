@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <title>Document</title>
+    <%- include('../partials/title') %>
 </head>
 <body>
     <header>
@@ -18,39 +18,45 @@
                   <a class="navbar-item" href="/">
                     <img src="/assets/menu_logo.png" alt="Bulma: Free, open source, and modern CSS framework based on Flexbox">
                   </a>
-                  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
+                  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true">
+
+
+                    </span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                   </a>
                 </div>
-                <div class="navbar-start">
-                  <% if(currentUser && (currentUser.roles.includes('cinemaAuthor') || currentUser.roles.includes('admin'))) { %>
-                    <a href="/kino/new" class="navbar-item">
-                      Add cinema
-                    </a>
-                  <% } %>
-                </div>
+                <div id="navMenu" class="navbar-menu">
 
-                <div class="navbar-end">
-                  <% if(currentUser && currentUser.roles.includes('admin')) { %>
-                    <a class="navbar-item" href="/admin">
-                      Admin
-                    </a>                  
-                  <% } %>
-                  <% if(!currentUser) { %>
-                    <a class="navbar-item" href="/register">
-                      Register
+                  <div class="navbar-start">
+                    <% if(currentUser && (currentUser.roles.includes('cinemaAuthor') || currentUser.roles.includes('admin'))) { %>
+                      <a href="/kino/new" class="navbar-item">
+                        Add cinema
+                      </a>
+                    <% } %>
+                  </div>
+  
+                  <div class="navbar-end">
+                    <% if(currentUser && currentUser.roles.includes('admin')) { %>
+                      <a class="navbar-item" href="/admin">
+                        Admin
+                      </a>                  
+                    <% } %>
+                    <% if(!currentUser) { %>
+                      <a class="navbar-item" href="/register">
+                        Register
+                      </a>
+  
+                      <a class="navbar-item" href="/login">
+                        Login
+                      </a>
+                    <% } else {%>
+                    <a class="navbar-item" href="/logout">
+                      Logout
                     </a>
-
-                    <a class="navbar-item" href="/login">
-                      Login
-                    </a>
-                  <% } else {%>
-                  <a class="navbar-item" href="/logout">
-                    Logout
-                  </a>
-                  <% } %>
+                    <% } %>
+                  </div>
                 </div>
               
               </nav>

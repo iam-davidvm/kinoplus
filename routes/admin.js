@@ -7,7 +7,7 @@ const catchAsync = require('../utils/catchAsync');
 const { validateCinema, isLoggedIn, isAdmin } = require('../utils/middleware');
 
 router.get('/', isLoggedIn, isAdmin, (req, res) => {
-  res.render('admin/admin');
+  res.render('admin/admin', { pageTitle: 'Admin' });
 });
 
 router.get(
@@ -16,7 +16,7 @@ router.get(
   isAdmin,
   catchAsync(async (req, res) => {
     const users = await User.find();
-    res.render('admin/users', { users });
+    res.render('admin/users', { users, pageTitle: 'Overview users' });
   })
 );
 
@@ -27,7 +27,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
-    res.render('admin/user', { user });
+    res.render('admin/user', {
+      user,
+      pageTitle: `Change roles ${user.username}`,
+    });
   })
 );
 
@@ -93,7 +96,7 @@ router.get(
   isAdmin,
   catchAsync(async (req, res) => {
     const cinemas = await TempCinema.find().populate('admin');
-    res.render('admin/requests', { cinemas });
+    res.render('admin/requests', { cinemas, pageTitle: 'Overview requests' });
   })
 );
 
@@ -104,7 +107,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const cinema = await TempCinema.findById(id).populate('admin');
-    res.render('admin/request', { cinema });
+    res.render('admin/request', {
+      cinema,
+      pageTitle: `Request of ${cinema.name}`,
+    });
   })
 );
 

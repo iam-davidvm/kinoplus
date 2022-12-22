@@ -16,6 +16,9 @@ const User = require('./models/user');
 const kinoRoutes = require('./routes/kino');
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
+const movieRoutes = require('./routes/movie');
+const reviewRoutes = require('./routes/review');
+const { use } = require('passport');
 
 /* view settings */
 app.engine('ejs', engine);
@@ -68,6 +71,7 @@ passport.deserializeUser(User.deserializeUser());
 /* setting up local variables */
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  // res.locals.pageTitle = req.pageTitle;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.cinemaWarning = req.flash('cinemaWarning');
@@ -78,6 +82,8 @@ app.use((req, res, next) => {
 /* use routes */
 app.use('/', userRoutes);
 app.use('/kino', kinoRoutes);
+app.use('/kino/:id/movie', movieRoutes);
+app.use('/kino/:id/review', reviewRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {

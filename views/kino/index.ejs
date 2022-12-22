@@ -18,7 +18,7 @@
                                 const ratings = cinema.reviews.map(review => review.rating);
                                 rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; 
                             } %>
-                            <div class="stars" style="--rating: <%= rating ? rating : '0' %>;" aria-label="Rating of this movie theater is <%= rating %> out of 5.">
+                            <div class="stars" style="--rating: <%= rating ? rating : '0' %>;" aria-label="Rating of this movie theater is <%= rating %> out of 5." title="<%= rating ? rating : '0' %>">
                             </div>
                         </div>
                     </figure>

@@ -34,7 +34,7 @@
                 const ratings = cinema.reviews.map(review => review.rating);
                 rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; 
             } %>
-            <div class="stars" style="--rating: <%= rating %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= rating %> out of 5.">
+            <div class="stars" style="--rating: <%= rating %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= rating %> out of 5."  title="<%= rating ? rating : '0' %>">
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@ if(cinema.reviews && cinema.reviews.length > 1) {
 <% for (let review of sortedReviews) { %>
     <div class="box">
         <p class="is-inline"><strong><%= review.author.username %> - </strong></p>
-        <div class="stars is-inline" style="--rating: <%= review.rating ? review.rating : '2,5' %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= review.rating ? review.rating : '2,5' %> out of 5."></div>
+        <div class="stars is-inline" style="--rating: <%= review.rating ? review.rating : '2,5' %>;--star-color:hsl(0, 0%, 71%);" aria-label="Rating of this movie theater is <%= review.rating ? review.rating : '2,5' %> out of 5."  title="<%= review.rating ? review.rating : '0' %>"></div>
         <p><%= review.body %></p>
         <% let date;
         if(review.date) {

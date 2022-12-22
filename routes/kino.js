@@ -22,12 +22,12 @@ router.get(
   '/',
   catchAsync(async (req, res) => {
     const cinemas = await Cinema.find({}).populate('reviews');
-    res.render('kino/index', { cinemas });
+    res.render('kino/index', { cinemas, pageTitle: 'Cinemas' });
   })
 );
 
 router.get('/new', isLoggedIn, (req, res) => {
-  res.render('kino/new');
+  res.render('kino/new', { pageTitle: 'Add Cinema' });
 });
 
 router.post(
@@ -51,7 +51,7 @@ router.get(
       populate: { path: 'author' },
     });
     const movies = await Movie.find({ cinema: id });
-    res.render('kino/show', { cinema, movies });
+    res.render('kino/show', { cinema, movies, pageTitle: cinema.name });
   })
 );
 
@@ -62,7 +62,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const cinema = await Cinema.findById(id);
-    res.render('kino/edit', { cinema });
+    res.render('kino/edit', { cinema, pageTitle: `Edit ${cinema.name}` });
   })
 );
 
@@ -73,7 +73,6 @@ router.patch(
   validateCinema,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    console.log(req.body.cinema);
     await Cinema.findByIdAndUpdate(id, { ...req.body.cinema });
     res.redirect(`/kino/${id}`);
   })
@@ -93,102 +92,65 @@ router.delete(
   })
 );
 
-router.get('/:id/movie', isLoggedIn, isCinemaAdmin, (req, res) => {
-  const { id } = req.params;
-  res.render('movie/new', { id });
-});
+// router.get('/:id/review', isLoggedIn, (req, res) => {
+//   const { id } = req.params;
+//   res.render('review/new', { id, pageTitle: 'Add review' });
+// });
 
-router.post(
-  '/:id/movie',
-  isLoggedIn,
-  isCinemaAdmin,
-  validateMovie,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const cinema = await Cinema.findById(id);
-    const movie = new Movie({
-      ...req.body.movie,
-      cinema: cinema._id,
-    });
-    // console.log(cinema._id);
-    // movie.cinema = id;
-    await movie.save();
-    req.flash('success', 'The movie was succesfully added!');
-    res.redirect(`/kino/${id}/`);
-  })
-);
+// router.post(
+//   '/:id/review',
+//   isLoggedIn,
+//   catchAsync(async (req, res) => {
+//     const { id } = req.params;
+//     const cinema = await Cinema.findById(id);
+//     const review = new Review({
+//       ...req.body.review,
+//       date: Date.now(),
+//       author: req.user._id,
+//     });
+//     await review.save();
+//     cinema.reviews.push(review._id);
+//     await cinema.save();
+//     req.flash('success', 'Your review has been added.');
+//     res.redirect(`/kino/${id}`);
+//   })
+// );
 
-router.get(
-  '/:id/movie/:movieId',
-  isLoggedIn,
-  isCinemaAdmin,
-  catchAsync(async (req, res) => {
-    const { id, movieId } = req.params;
-    await Movie.findByIdAndDelete(movieId);
-    req.flash('success', 'The movie is deleted');
-    res.redirect(`/kino/${id}`);
-  })
-);
+// router.get(
+//   '/:id/review/:reviewId',
+//   isLoggedIn,
+//   isReviewAuthor,
+//   catchAsync(async (req, res) => {
+//     const { id, reviewId } = req.params;
+//     const review = await Review.findById(reviewId);
+//     res.render('review/edit', { review, id, pageTitle: 'Edit review' });
+//   })
+// );
 
-router.get('/:id/review', isLoggedIn, (req, res) => {
-  const { id } = req.params;
-  res.render('review/new', { id });
-});
+// router.patch(
+//   '/:id/review/:reviewId',
+//   isLoggedIn,
+//   isReviewAuthor,
+//   validateReview,
+//   catchAsync(async (req, res) => {
+//     const { id, reviewId } = req.params;
+//     await Review.findByIdAndUpdate(reviewId, { ...req.body.review });
+//     req.flash('success', 'Your review is saved.');
+//     res.redirect(`/kino/${id}`);
+//   })
+// );
 
-router.post(
-  '/:id/review',
-  isLoggedIn,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const cinema = await Cinema.findById(id);
-    const review = new Review({
-      ...req.body.review,
-      date: Date.now(),
-      author: req.user._id,
-    });
-    await review.save();
-    cinema.reviews.push(review._id);
-    await cinema.save();
-    req.flash('success', 'Your review has been added.');
-    res.redirect(`/kino/${id}`);
-  })
-);
-
-router.get(
-  '/:id/review/:reviewId',
-  isLoggedIn,
-  isReviewAuthor,
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    const review = await Review.findById(reviewId);
-    res.render('review/edit', { review, id });
-  })
-);
-
-router.patch(
-  '/:id/review/:reviewId',
-  isLoggedIn,
-  isReviewAuthor,
-  validateReview,
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Review.findByIdAndUpdate(reviewId, { ...req.body.review });
-    req.flash('success', 'Your review is saved.');
-    res.redirect(`/kino/${id}`);
-  })
-);
-
-router.delete(
-  '/:id/review/:reviewId',
-  isLoggedIn,
-  isReviewAuthor,
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Cinema.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    req.flash('Success', 'Successfully deleted this review');
-    res.redirect(`/kino/${id}`);
-  })
-);
+// router.delete(
+//   '/:id/review/:reviewId',
+//   isLoggedIn,
+//   isReviewAuthor,
+//   catchAsync(async (req, res) => {
+//     const { id, reviewId } = req.params;
+//     await Cinema.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+//     await Review.findByIdAndDelete(reviewId);
+//     req.flash('Success', 'Successfully deleted this review');
+//     res.redirect(`/kino/${id}`);
+//   })
+// );
 
 module.exports = router;

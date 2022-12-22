@@ -154,3 +154,20 @@ input[type='range'].slider::-moz-range-track {
 }
 
 /* end of layout of the slider */
+
+@media (max-width: 950px) {
+  .image.is-3by1 {
+    padding-top: 50%;
+  }
+
+  .stars-holder {
+    bottom: 0rem;
+    right: 0rem;
+  }
+}
+
+@media (max-width: 376px) {
+  .image.is-3by1 {
+    padding-top: 70%;
+  }
+}

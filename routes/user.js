@@ -5,7 +5,7 @@ const User = require('../models/user');
 const passport = require('passport');
 
 router.get('/register', (req, res) => {
-  res.render('user/register');
+  res.render('user/register', { pageTitle: 'Create an account' });
 });
 
 router.post(
@@ -32,7 +32,7 @@ router.post(
 );
 
 router.get('/login', (req, res) => {
-  res.render('user/login');
+  res.render('user/login', { pageTitle: 'Log in' });
 });
 
 router.post(
