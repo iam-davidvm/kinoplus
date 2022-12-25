@@ -11,39 +11,23 @@ const {
 const Cinema = require('../models/cinema');
 const Movie = require('../models/movie');
 
-router.get('/', isLoggedIn, isCinemaAdmin, (req, res) => {
-  const { id } = req.params;
-  res.render('movie/new', { id, pageTitle: 'Add movie' });
-});
+const movieController = require('../controllers/movie');
 
-router.post(
-  '/',
-  isLoggedIn,
-  isCinemaAdmin,
-  validateMovie,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const cinema = await Cinema.findById(id);
-    const movie = new Movie({
-      ...req.body.movie,
-      cinema: cinema._id,
-    });
-    await movie.save();
-    req.flash('success', 'The movie was succesfully added!');
-    res.redirect(`/kino/${id}/`);
-  })
-);
+router
+  .route('/')
+  .get(isLoggedIn, isCinemaAdmin, movieController.renderNewMovieForm)
+  .post(
+    isLoggedIn,
+    isCinemaAdmin,
+    validateMovie,
+    catchAsync(movieController.addNewMovie)
+  );
 
 router.get(
   '/:movieId',
   isLoggedIn,
   isCinemaAdmin,
-  catchAsync(async (req, res) => {
-    const { id, movieId } = req.params;
-    await Movie.findByIdAndDelete(movieId);
-    req.flash('success', 'The movie is deleted');
-    res.redirect(`/kino/${id}`);
-  })
+  catchAsync(movieController.deleteMovie)
 );
 
 module.exports = router;

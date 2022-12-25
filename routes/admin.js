@@ -3,159 +3,55 @@ const router = express.Router();
 const TempCinema = require('../models/tempCinema');
 const Cinema = require('../models/cinema');
 const User = require('../models/user');
+const adminController = require('../controllers/admin');
 const catchAsync = require('../utils/catchAsync');
 const { validateCinema, isLoggedIn, isAdmin } = require('../utils/middleware');
 
-router.get('/', isLoggedIn, isAdmin, (req, res) => {
-  res.render('admin/admin', { pageTitle: 'Admin' });
-});
+router.get('/', isLoggedIn, isAdmin, adminController.renderAdminPage);
 
 router.get(
   '/users',
   isLoggedIn,
   isAdmin,
-  catchAsync(async (req, res) => {
-    const users = await User.find();
-    res.render('admin/users', { users, pageTitle: 'Overview users' });
-  })
+  catchAsync(adminController.renderUsersOverview)
 );
 
-router.get(
-  '/users/:id',
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    res.render('admin/user', {
-      user,
-      pageTitle: `Change roles ${user.username}`,
-    });
-  })
-);
-
-router.patch(
-  '/users/:id',
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const { roles } = req.body;
-    const user = await User.findById(id);
-    user.roles = [];
-    switch (typeof roles) {
-      case 'undefined':
-        break;
-      case 'string':
-        user.roles.push(roles);
-        break;
-      case 'object':
-        user.roles.push(...roles);
-        break;
-      default:
-        req.flash('error', 'Something went wrong');
-        return res.redirect('/kino');
-    }
-    await user.save();
-    res.redirect('/admin/users');
-  })
-);
+router
+  .route('/users/:id')
+  .get(isLoggedIn, isAdmin, catchAsync(adminController.renderUserRoles))
+  .patch(isLoggedIn, isAdmin, catchAsync(adminController.editUserRoles))
+  .delete(isLoggedIn, isAdmin, catchAsync(adminController.deleteUser));
 
 router.get(
   '/users/:id/delete',
   isLoggedIn,
   isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    req.flash('userWarning', {
-      message: 'Are you sure you want to delete:',
-      username: user.username,
-      id,
-    });
-    res.redirect('/admin/users');
-  })
-);
-
-router.delete(
-  '/users/:id',
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    // I have chosen to not delete reviews, movies, cinemas linked at the user for this moment
-    await User.findByIdAndDelete(id);
-    req.flash('success', 'You deleted the user');
-    res.redirect('/admin/users');
-  })
+  catchAsync(adminController.flashDeleteUser)
 );
 
 router.get(
   '/requests',
   isLoggedIn,
   isAdmin,
-  catchAsync(async (req, res) => {
-    const cinemas = await TempCinema.find().populate('admin');
-    res.render('admin/requests', { cinemas, pageTitle: 'Overview requests' });
-  })
+  catchAsync(adminController.renderRequestsOverview)
 );
 
-router.get(
-  '/requests/:id',
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const cinema = await TempCinema.findById(id).populate('admin');
-    res.render('admin/request', {
-      cinema,
-      pageTitle: `Request of ${cinema.name}`,
-    });
-  })
-);
-
-router.post(
-  '/requests/:id',
-  isLoggedIn,
-  isAdmin,
-  validateCinema,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const newCinema = new Cinema({ ...req.body.cinema });
-    await newCinema.save();
-    await TempCinema.findByIdAndDelete(id);
-    const newId = newCinema._id;
-    req.flash('success', 'This cinema has succesfully been approved');
-    res.redirect(`/kino/${newId}`);
-  })
-);
+router
+  .route('/requests/:id')
+  .get(isLoggedIn, isAdmin, catchAsync(adminController.renderRequest))
+  .post(
+    isLoggedIn,
+    isAdmin,
+    validateCinema,
+    catchAsync(adminController.approveRequest)
+  )
+  .delete(isLoggedIn, isAdmin, catchAsync(adminController.deleteRequest));
 
 router.get(
   '/requests/:id/delete',
   isLoggedIn,
   isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const cinema = await TempCinema.findById(id);
-    req.flash('cinemaWarning', {
-      message: 'Are you sure you want to delete:',
-      cinemaname: cinema.name,
-      id,
-    });
-    res.redirect('/admin/requests');
-  })
-);
-
-router.delete(
-  '/requests/:id',
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await TempCinema.findByIdAndDelete(id);
-    req.flash('success', 'The request is deleted.');
-    res.redirect('/admin/requests');
-  })
+  catchAsync(adminController.flashDeleteRequest)
 );
 
 module.exports = router;
