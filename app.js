@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -47,7 +51,7 @@ mongoose.set('strictQuery', false);
 /* for flashing messages */
 // we need sessions
 const sessionConfig = {
-  secret: 'gz54gze5gzeg4zgz4',
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {

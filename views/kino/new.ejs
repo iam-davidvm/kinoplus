@@ -6,7 +6,7 @@
     Fill out this form to get reviewed. We’ll keep you posted when your movie theater is added.
   </div>
 
-  <form id="form" action="/kino/new" method="POST">
+  <form id="form" action="/kino/new" enctype="multipart/form-data" method="POST">
     <div class="field">
         <label class="label" for="name">Name movie theater</label>
         <div class="control">
@@ -49,9 +49,30 @@
           <input id="phone" name="cinema[phone]" class="input" type="text" placeholder="Phone" required>
         </div>
         <p class="help">How can people get in touch with you?</p>
-
     </div>
+
+    <div class="field mt-5">
+      <div class="file is-primary has-name is-fullwidth">
+        <label class="file-label">
+          <input class="file-input" type="file" name="cinema[image]">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose an image
+            </span>
+          </span>
+          <span class="file-name">
+            No image selected
+          </span>
+        </label>
+      </div>
+    </div>
+
     <div class="control mt-6">
         <button class="button is-primary">Submit</button>
       </div>
   </form>
+
+  <script src="/js/fileInput.js"></script>
