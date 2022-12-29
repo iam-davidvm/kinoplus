@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const imageSchema = require('./image');
+const ImageSchema = require('./image');
 
 const tempCinemaSchema = new Schema({
   name: {
@@ -15,7 +15,7 @@ const tempCinemaSchema = new Schema({
     type: String,
     required: true,
   },
-  image: imageSchema,
+  image: ImageSchema,
   owner: String,
   email: {
     type: String,

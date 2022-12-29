@@ -16,7 +16,24 @@ module.exports.cinemaSchema = Joi.object({
 module.exports.movieSchema = Joi.object({
   movie: Joi.object({
     title: Joi.string().required(),
-    genre: Joi.string().required(), // could enum here
+    genre: Joi.string()
+      .valid(
+        'Action',
+        'Adventure',
+        'Animation',
+        'Biography',
+        'Comedy',
+        'Crime',
+        'Drama',
+        'Fantasy',
+        'Musical',
+        'Mysterie',
+        'Romance',
+        'Sci-Fi',
+        'Thriller',
+        'Western'
+      )
+      .required(),
     duration: Joi.number().min(5).required(),
     image: Joi.string(),
   }).required(),

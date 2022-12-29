@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
 const { Schema } = mongoose;
-const imageSchema = require('./image');
+const ImageSchema = require('./image');
 
 const cinemaSchema = new Schema({
   name: {
@@ -16,7 +16,7 @@ const cinemaSchema = new Schema({
     type: String,
     required: true,
   },
-  image: imageSchema,
+  image: ImageSchema,
   owner: String,
   email: {
     type: String,

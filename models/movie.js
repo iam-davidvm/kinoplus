@@ -9,6 +9,22 @@ const movieSchema = new Schema({
   },
   genre: {
     type: String,
+    enum: [
+      'Action',
+      'Adventure',
+      'Animation',
+      'Biography',
+      'Comedy',
+      'Crime',
+      'Drama',
+      'Fantasy',
+      'Musical',
+      'Mysterie',
+      'Romance',
+      'Sci-Fi',
+      'Thriller',
+      'Western',
+    ],
     required: true,
   },
   duration: {
