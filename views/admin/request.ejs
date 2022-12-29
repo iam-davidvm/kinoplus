@@ -63,9 +63,11 @@
         <div class="field">
             <label class="label">Image</label>
             <figure class="image is-3by1 mt-3">
-                <img src="<%= cinema.image %>" alt="<%= cinema.name %>" class="hero-image">
+                <img src="<%= cinema.image.url %>" alt="<%= cinema.name %>" class="hero-image">
             </figure>
         </div>
+        <input type="text" name="image[url]" value="<%= cinema.image.url %>" hidden>
+        <input type="text" name="image[filename]" value="<%= cinema.image.filename %>" hidden>
 
     <% } %>
 

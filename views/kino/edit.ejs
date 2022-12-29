@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
 <h1 class="title mt-3 mb-6">Edit <%= cinema.name %></h1>
-  <form id="form" action="/kino/<%= cinema._id %>?_method=PATCH" method="POST">
+  <form id="form" action="/kino/<%= cinema._id %>?_method=PATCH" enctype="multipart/form-data" method="POST">
     <div class="field">
         <label class="label" for="name">Name movie theater</label>
         <div class="control">
@@ -46,7 +46,29 @@
         <p class="help">How can people get in touch with you?</p>
 
     </div>
+
+    <div class="field mt-5">
+      <div class="file is-primary has-name is-fullwidth">
+        <label class="file-label">
+          <input class="file-input" type="file" name="image">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a new image
+            </span>
+          </span>
+          <span class="file-name">
+            No image selected
+          </span>
+        </label>
+      </div>
+    </div>
+
     <div class="control mt-6">
         <button class="button is-primary">Save</button>
       </div>
   </form>
+
+  <script src="/js/fileInput.js"></script>

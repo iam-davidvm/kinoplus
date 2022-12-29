@@ -2,6 +2,8 @@ const User = require('../models/user');
 const Cinema = require('../models/cinema');
 const TempCinema = require('../models/tempCinema');
 
+const { cloudinary } = require('../cloudinary');
+
 module.exports.renderAdminPage = (req, res) => {
   res.render('admin/admin', { pageTitle: 'Admin' });
 };
@@ -75,9 +77,15 @@ module.exports.renderRequest = async (req, res) => {
   });
 };
 
-module.exports.approveRequest = async (req, res) => {
+module.exports.approveRequest = async (req, res, next) => {
   const { id } = req.params;
   const newCinema = new Cinema({ ...req.body.cinema });
+  if (req.body.image) {
+    newCinema.image = {
+      url: req.body.image.url,
+      filename: req.body.image.filename,
+    };
+  }
   await newCinema.save();
   await TempCinema.findByIdAndDelete(id);
   const newId = newCinema._id;
@@ -98,6 +106,10 @@ module.exports.flashDeleteRequest = async (req, res) => {
 
 module.exports.deleteRequest = async (req, res) => {
   const { id } = req.params;
+  const cinema = await TempCinema.findById(id);
+  if (cinema.image) {
+    await cloudinary.uploader.destroy(cinema.image.filename);
+  }
   await TempCinema.findByIdAndDelete(id);
   req.flash('success', 'The request is deleted.');
   res.redirect('/admin/requests');

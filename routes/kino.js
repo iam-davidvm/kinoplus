@@ -19,12 +19,21 @@ const {
 } = require('../utils/middleware');
 const { date } = require('joi');
 
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
+
 router.get('/', catchAsync(kinoController.renderCinemas));
 
 router
   .route('/new')
   .get(isLoggedIn, kinoController.renderCinemaForm)
-  .post(isLoggedIn, validateCinema, catchAsync(kinoController.addCinema));
+  .post(
+    isLoggedIn,
+    upload.single('image'),
+    validateCinema,
+    catchAsync(kinoController.addCinema)
+  );
 
 router
   .route('/:id')
@@ -32,6 +41,7 @@ router
   .patch(
     isLoggedIn,
     isCinemaAdmin,
+    upload.single('image'),
     validateCinema,
     catchAsync(kinoController.editCinema)
   )

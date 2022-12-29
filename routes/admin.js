@@ -7,6 +7,10 @@ const adminController = require('../controllers/admin');
 const catchAsync = require('../utils/catchAsync');
 const { validateCinema, isLoggedIn, isAdmin } = require('../utils/middleware');
 
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
+
 router.get('/', isLoggedIn, isAdmin, adminController.renderAdminPage);
 
 router.get(
@@ -42,8 +46,8 @@ router
   .post(
     isLoggedIn,
     isAdmin,
-    validateCinema,
-    catchAsync(adminController.approveRequest)
+    catchAsync(adminController.approveRequest),
+    validateCinema // I don't think we need to validate this cinema again. It happened in the first stage.
   )
   .delete(isLoggedIn, isAdmin, catchAsync(adminController.deleteRequest));
 
