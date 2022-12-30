@@ -131,9 +131,16 @@ if(cinema.reviews && cinema.reviews.length > 1) {
             </div>
         </div>
         <div class="column">
-            <figure class="image is-5by4">
-                <img src="https://images.unsplash.com/photo-1522678073884-26b1b87526e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2735&q=80" class="cover-image">
-            </figure>
+            <div id="map" style='width: 100%; height: 300px;'></div>
         </div>
     </div>
-  </footer>
+            </footer>
+
+<script>  
+ 
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+    // We use JSON.stringify, because the objectID will throw an error, JS will see this as nor a number nor a string
+    const cinema = <%- JSON.stringify(cinema) %>; // false positive error from vscode
+</script>
+
+  <script src="/js/showMap.js"></script>

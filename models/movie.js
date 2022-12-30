@@ -19,7 +19,7 @@ const movieSchema = new Schema({
       'Drama',
       'Fantasy',
       'Musical',
-      'Mysterie',
+      'Mystery',
       'Romance',
       'Sci-Fi',
       'Thriller',

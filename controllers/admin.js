@@ -79,7 +79,11 @@ module.exports.renderRequest = async (req, res) => {
 
 module.exports.approveRequest = async (req, res, next) => {
   const { id } = req.params;
-  const newCinema = new Cinema({ ...req.body.cinema });
+  const tempCinema = await TempCinema.findById(id);
+  const newCinema = new Cinema({
+    ...req.body.cinema,
+    geometry: tempCinema.geometry,
+  });
   if (req.body.image) {
     newCinema.image = {
       url: req.body.image.url,

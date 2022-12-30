@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const Cinema = require('../models/cinema');
 const Movie = require('../models/movie');
@@ -15,6 +19,13 @@ const {
 const { movies } = require('./moviehelpers');
 const { reviews } = require('./reviewHelpers');
 const { users } = require('./userHelpers');
+
+// mapbox geocoding
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({
+  accessToken: mapBoxToken,
+});
 
 mongoose
   .connect('mongodb://localhost:27017/kinoplus')
@@ -62,6 +73,16 @@ const seedDb = async () => {
       availableReviews.splice(randomReview, 1);
       cinema.reviews.push(review._id);
     }
+
+    // adding geocode
+    const geoData = await geocoder
+      .forwardGeocode({
+        query: locations[i],
+        limit: 1,
+      })
+      .send();
+
+    cinema.geometry = geoData.body.features[0].geometry;
 
     await cinema.save();
 
