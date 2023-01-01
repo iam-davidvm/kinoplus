@@ -14,6 +14,10 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
+// security
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+
 const User = require('./models/user');
 
 /* import routes */
@@ -22,19 +26,6 @@ const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
 const movieRoutes = require('./routes/movie');
 const reviewRoutes = require('./routes/review');
-const { use } = require('passport');
-
-/* view settings */
-app.engine('ejs', engine);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-// Needed to use the bulma framework
-app.use('/bulma', express.static(__dirname + '/node_modules/bulma/'));
-
-/* work with form data */
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
 /* Connecting to mongo */
 mongoose
@@ -48,13 +39,74 @@ mongoose
   });
 mongoose.set('strictQuery', false);
 
+/* view settings */
+app.engine('ejs', engine);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+// Needed to use the bulma framework
+app.use('/bulma', express.static(__dirname + '/node_modules/bulma/'));
+
+/* work with form data */
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+
+// security
+app.use(mongoSanitize());
+
+// app.use(helmet());
+
+const scriptSrcUrls = [
+  'https://api.tiles.mapbox.com/',
+  'https://api.mapbox.com/',
+  'https://res.cloudinary.com/dtwyfmgxt/',
+  'https://images.unsplash.com/',
+];
+const styleSrcUrls = [
+  'https://api.tiles.mapbox.com/',
+  'https://api.mapbox.com/',
+  'https://res.cloudinary.com/dtwyfmgxt/',
+];
+const connectSrcUrls = [
+  'https://*.tiles.mapbox.com',
+  'https://api.mapbox.com',
+  'https://events.mapbox.com',
+  'https://res.cloudinary.com/dtwyfmgxt/',
+];
+const fontSrcUrls = ['https://res.cloudinary.com/dtwyfmgxt/'];
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", 'blob:'],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        'blob:',
+        'data:',
+        'https://res.cloudinary.com/dtwyfmgxt/', //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        'https://cdn.cinematerial.com/',
+        'https://images.unsplash.com/',
+      ],
+      fontSrc: ["'self'", ...fontSrcUrls],
+      mediaSrc: ['https://res.cloudinary.com/dtwyfmgxt/'],
+      childSrc: ['blob:'],
+    },
+  })
+);
+
 /* for flashing messages */
 // we need sessions
 const sessionConfig = {
   secret: process.env.SECRET,
+  name: 'session',
   resave: false,
   saveUninitialized: true,
   cookie: {
+    sameSite: 'strict',
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -80,6 +132,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash('error');
   res.locals.cinemaWarning = req.flash('cinemaWarning');
   res.locals.userWarning = req.flash('userWarning');
+
   next();
 });
 
