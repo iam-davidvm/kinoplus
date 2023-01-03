@@ -16,16 +16,18 @@
 
 ## Built With
 
-<img src="https://github.com/devicons/devicon/blob/master/icons/bulma/bulma-plain.svg" title="bulma" alt="bulma" width="40" height="40" style="display:block;"/>
-<img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="NodeJS" alt="NodeJS" width="40" height="40" style="display:block;"/>
-<img src="https://github.com/devicons/devicon/blob/master/icons/express/express-original-wordmark.svg" title="Express" alt="Express" width="40" height="40" style="display:block;"/>
-<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original-wordmark.svg" title="MongoDB" alt="MongoDB" width="40" height="40" style="display:block;"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/bulma/bulma-plain.svg" title="bulma" alt="bulma" width="60" height="60" /> &nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="NodeJS" alt="NodeJS" width="60" height="60" /> &nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/express/express-original-wordmark.svg" title="Express" alt="Express" width="60" height="60" /> &nbsp;
+<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original-wordmark.svg" title="MongoDB" alt="MongoDB" width="60" height="60" /> &nbsp;
 
 ## Sources
 
 I wanted to add a star rating to the cinemas and used following article as my guide:
 
 - [CSS-tricks article](https://css-tricks.com/five-methods-for-five-star-ratings/ 'CSS-tricks article')
+
+I know I could use a library for this, but choose to do it manually.
 
 ## What I have learned
 
