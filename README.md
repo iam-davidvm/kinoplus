@@ -6,7 +6,7 @@
 
 ## Links
 
-- [![Demo of the website](https://i.imgur.com/oCahb4u.png)](https://www.youtube.com/watch?v=okBg2Co11to)
+[![Demo of the website](https://i.imgur.com/oCahb4u.png)](https://www.youtube.com/watch?v=okBg2Co11to)
 
 ## Screenshots
 
