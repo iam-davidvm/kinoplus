@@ -27,9 +27,14 @@ const userRoutes = require('./routes/user');
 const movieRoutes = require('./routes/movie');
 const reviewRoutes = require('./routes/review');
 
+// MongoDB session store for Connect and Express
+const MongoStore = require('connect-mongo');
+
+const dbUrl = process.env.DB_URL;
+
 /* Connecting to mongo */
 mongoose
-  .connect('mongodb://localhost:27017/kinoplus')
+  .connect(dbUrl)
   .then(() => {
     console.log('CONNECTED TO MONGODB');
   })
@@ -98,9 +103,19 @@ app.use(
   })
 );
 
+// storing the session in a mongodb
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+});
+
 /* for flashing messages */
 // we need sessions
 const sessionConfig = {
+  store,
   secret: process.env.SECRET,
   name: 'session',
   resave: false,

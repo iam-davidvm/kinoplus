@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const mongoose = require('mongoose');
 const Cinema = require('../models/cinema');
+const TempCinema = require('../models/tempCinema');
 const Movie = require('../models/movie');
 const Review = require('../models/review');
 const User = require('../models/user');
@@ -41,6 +42,7 @@ mongoose.set('strictQuery', false);
 
 const seedDb = async () => {
   await Cinema.deleteMany({});
+  await TempCinema.deleteMany({});
   await Movie.deleteMany({});
   await Review.deleteMany({});
 

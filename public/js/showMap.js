@@ -7,6 +7,8 @@ const map = new mapboxgl.Map({
   zoom: 15,
 });
 
+map.addControl(new mapboxgl.NavigationControl());
+
 // create marker
 const marker = new mapboxgl.Marker({ color: 'hsl(171, 100%, 41%)' })
   .setLngLat(cinema.geometry.coordinates)

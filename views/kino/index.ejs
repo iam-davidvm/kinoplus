@@ -14,7 +14,7 @@
                         <div class="content stars-holder">
                             <% 
                             let rating = '2.5';
-                            if(cinema.reviews && cinema.reviews.length > 1) {
+                            if(cinema.reviews && cinema.reviews.length >= 1) {
                                 const ratings = cinema.reviews.map(review => review.rating);
                                 rating = ratings.reduce((accumulator, currentValue) => accumulator + currentValue) / ratings.length; 
                             } %>
